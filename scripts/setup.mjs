@@ -31,8 +31,17 @@ const ENGINE_FILES = [
 const args = new Set(process.argv.slice(2));
 const say = (line = "") => console.log(line);
 
+// Records which release the installed engines came from, so `git pull` plus
+// setup replaces engines from an older release instead of keeping them.
+const STAMP = path.join(root, "native", "engines-version.txt");
+
 function enginesPresent() {
-  return ENGINE_FILES.every((file) => fs.existsSync(path.join(root, file)));
+  const stamped = fs.existsSync(STAMP) ? fs.readFileSync(STAMP, "utf8").trim() : null;
+  return stamped === pkg.version && ENGINE_FILES.every((file) => fs.existsSync(path.join(root, file)));
+}
+
+function stampEngines() {
+  fs.writeFileSync(STAMP, `${pkg.version}\n`);
 }
 
 function checkNode() {
@@ -115,6 +124,7 @@ async function main() {
   if (missing.length) {
     throw new Error(`Setup finished but these engine files are missing:\n  ${missing.join("\n  ")}`);
   }
+  stampEngines();
   say("");
   say("Ready. Start the app with:  start.cmd   (or: npm start)");
   say("Or use the CLI:             node src/cli.js pull bartowski/Qwen2.5-1.5B-Instruct-GGUF");

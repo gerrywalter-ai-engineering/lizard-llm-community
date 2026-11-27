@@ -1,6 +1,6 @@
 {
   "name": "lizard-llm-community",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Run local LLMs on Windows with two open-source native inference engines (Direct3D 12 + CPU). Ollama-style CLI, guided onboarding, OpenAI- and Ollama-compatible API.",
   "type": "module",
   "bin": {

@@ -80,7 +80,9 @@ const defaultConfig = {
   },
   generation: {
     maxTokens: 160,
-    temperature: 0.2,
+    // 0 = greedy decoding: deterministic, required by caterpillar and the
+    // condition for lizard-native speculative decoding (the fastest path).
+    temperature: 0,
   },
   logging: {
     directory: path.join(runtimeDirectory, "logs"),

@@ -10,3 +10,4 @@ lizard-llm.config.json
 *.gguf
 .DS_Store
 Thumbs.db
+native/engines-version.txt

@@ -218,6 +218,7 @@ export async function generateWithRuntimeSession({
   profile = null,
   prompt,
   systemPrompt,
+  messages = null,
   maxTokens,
   enginePath,
   config,
@@ -271,6 +272,9 @@ export async function generateWithRuntimeSession({
     for await (const event of session.generateStream({
       prompt,
       systemPrompt,
+      // Structured turns go through the model's own chat template, so a
+      // multi-turn chat ends on the model's end-of-turn token.
+      messages: Array.isArray(messages) && messages.length ? messages : null,
       maxTokens,
       temperature: config?.generation?.temperature ?? null,
       topK: config?.generation?.topK ?? null,

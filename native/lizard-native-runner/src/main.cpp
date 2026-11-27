@@ -12994,16 +12994,45 @@ static JsonObject execute_family_layered_generate(
   std::vector<float> last_hidden;
   std::vector<float> last_logits;
 
+  // End of turn, same rules as the llama and Gemma loops: the GGUF base EOS
+  // is consumed silently, a textual stop marker (<|im_end|>, <|eot_id|>, ...)
+  // is emitted so the streaming filter can trim it, and either one ends the
+  // loop. Without this every answer decoded the whole max_tokens budget.
+  const auto eos_token_id = json_to_u64(find_object_value(state.model.special_tokens, "eos"));
+  std::string stop_scan_tail;
+  const std::size_t kStopScanTailMax = 64;
+
   for (std::uint64_t step = 0; step < max_tokens; step += 1) {
     const std::uint64_t token_id = select_next_token(session.last_logits, session.sampling);
-    generated_token_ids.push_back(token_id);
-    generated_token_ids_json.push_back(JsonValue(token_id));
-
     const std::string token_text = token_id < state.model.token_vocabulary.size()
       ? state.model.token_vocabulary[static_cast<std::size_t>(token_id)]
       : ("<token:" + std::to_string(token_id) + ">");
+
+    if ((eos_token_id.has_value() && token_id == eos_token_id.value()) || token_text == "<turn|>") {
+      break;
+    }
+
+    generated_token_ids.push_back(token_id);
+    generated_token_ids_json.push_back(JsonValue(token_id));
     generated_tokens.push_back(token_text);
     emit_generate_token_event(session, step, token_id, token_text);
+
+    if (!session.stop_sequences.empty()) {
+      stop_scan_tail += decode_bpe_whitespace(token_text);
+      if (stop_scan_tail.size() > kStopScanTailMax) {
+        stop_scan_tail.erase(0, stop_scan_tail.size() - kStopScanTailMax);
+      }
+      bool stop_sequence_hit = false;
+      for (const std::string &stop_marker : session.stop_sequences) {
+        if (!stop_marker.empty() && stop_scan_tail.find(stop_marker) != std::string::npos) {
+          stop_sequence_hit = true;
+          break;
+        }
+      }
+      if (stop_sequence_hit) {
+        break;
+      }
+    }
 
     execute_family_consume_token(state, session, token_id);
     last_hidden = session.last_hidden_state;

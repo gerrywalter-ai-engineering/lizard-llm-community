@@ -6,7 +6,7 @@
   "maxVramUsagePercent": 90,
   "generation": {
     "maxTokens": 160,
-    "temperature": 0.2
+    "temperature": 0
   },
   "logging": {
     "directory": "~/.lizard-llm-community/logs"

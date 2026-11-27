@@ -537,7 +537,7 @@ function send(text) {
     const data = JSON.parse(event.data);
     if (!out.textContent && data.response) out.textContent = data.response;
     const meta = [
-      Number.isFinite(data.userVisibleTokensPerSecond) ? `${data.userVisibleTokensPerSecond.toFixed(1)} tokens/s` : null,
+      Number.isFinite(data.decodeTokensPerSecond) ? `${data.decodeTokensPerSecond.toFixed(1)} tokens/s` : (Number.isFinite(data.userVisibleTokensPerSecond) ? `${data.userVisibleTokensPerSecond.toFixed(1)} tokens/s` : null),
       Number.isFinite(data.ttftMs) ? `first word after ${(data.ttftMs / 1000).toFixed(2)} s` : null,
       data.runtimeProvider,
     ].filter(Boolean).join(", ");
@@ -613,9 +613,21 @@ $("#unload").addEventListener("click", async () => {
 // ---------- Pro note ----------
 function renderPro(offer) {
   $("#pro-price").textContent = offer.price ?? "€5";
+  $("#pro-cta-price").textContent = `${offer.price ?? "€5"} once`;
   $("#pro-list").replaceChildren(...(offer.includes ?? []).slice(0, 4).map((line) => el("li", { text: line })));
   if (offer.downloadUrl) $("#pro-link").href = offer.downloadUrl;
 }
+
+// ---------- Pro gem (three.js, loaded after the page is usable) ----------
+function loadProGem() {
+  const canvas = $("#pro-gem");
+  if (!canvas) return;
+  import("./pro-gem.js")
+    .then(({ mountProGem }) => mountProGem(canvas, $("#pro-link")))
+    .catch(() => {});
+}
+if ("requestIdleCallback" in window) requestIdleCallback(loadProGem, { timeout: 2000 });
+else setTimeout(loadProGem, 800);
 
 // ---------- start ----------
 (async function start() {

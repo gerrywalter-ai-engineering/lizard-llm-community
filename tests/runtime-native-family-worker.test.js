@@ -77,7 +77,9 @@ async function runFamilyGeneration(binary, family) {
     assert.equal(generated.runtimeProvider, "lizard-native");
     assert.equal(generated.nativeModelStatus, `${family}-graph-executed`);
     assert.equal(generated.family, family);
-    assert.equal(generated.generatedTokenIds.length, 4);
+    // The decode loop ends at the GGUF EOS (token 4 here), so a greedy
+    // synthetic model may stop before the budget; it must never exceed it.
+    assert.ok(generated.generatedTokenIds.length <= 4, `${family} generated ${generated.generatedTokenIds.length} tokens`);
     for (const tokenId of generated.generatedTokenIds) {
       assert.ok(Number.isInteger(tokenId) && tokenId >= 0 && tokenId < 5, `${family} produced token id ${tokenId}`);
     }

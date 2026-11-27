@@ -38,7 +38,10 @@
           <h2 id="pro-title">Lizard LLM Pro</h2>
           <p class="pro-price"><strong id="pro-price">€5</strong> once. No subscription.</p>
           <ul id="pro-list"></ul>
-          <a class="pro-link" id="pro-link" href="https://lizard-llm.qendryx.com/download.html" target="_blank" rel="noopener">Get Pro on lizard-llm.qendryx.com</a>
+          <a class="pro-cta" id="pro-link" href="https://lizard-llm.qendryx.com/download.html" target="_blank" rel="noopener" title="Opens lizard-llm.qendryx.com">
+            <canvas class="pro-gem" id="pro-gem" aria-hidden="true"></canvas>
+            <span class="pro-cta-text"><strong>Get Pro</strong><span id="pro-cta-price">€5 once</span></span>
+          </a>
           <p class="pro-note">Everything on this page stays free and open source.</p>
         </aside>
       </nav>
@@ -110,7 +113,7 @@
               <input type="radio" name="engine" value="caterpillar" />
               <span class="engine-body">
                 <span class="engine-name">caterpillar</span>
-                <span class="engine-desc">Runs a pre-planned compute graph with speculative decoding. Often faster on Q4_K models; newer.</span>
+                <span class="engine-desc">Runs a pre-planned compute graph with speculative decoding. Newer; its speed depends a lot on your graphics card, so try both.</span>
               </span>
             </label>
           </fieldset>

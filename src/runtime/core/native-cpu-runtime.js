@@ -11,6 +11,7 @@ import { mergeRuntimeContract, NATIVE_RUNTIME_PROVIDER } from "../contract.js";
 import {
   createStopSequenceFilter,
   DEFAULT_STOP_MARKERS,
+  NATIVE_STOP_STRINGS,
   truncateAtStopSequence,
 } from "./stop-sequences.js";
 import { buildKvCachePlan, createKvCacheRuntime } from "../kv-cache/index.js";
@@ -1056,7 +1057,11 @@ export class NativeCpuRuntime extends InferenceRuntime {
                   modelId: modelArtifact.modelId,
                 });
                 traceStep(request.requestId, "worker-session-opened", traceStartedAt);
+                // The end-of-turn markers always go to the worker too. Filtering them
+                // only in JS hid the text but let the engine decode the rest of the
+                // token budget after every answer (a 2 s reply took 75 s).
                 const requestStopSequences = [...new Set([
+                  ...NATIVE_STOP_STRINGS,
                   ...(Array.isArray(profile?.stopSequences) ? profile.stopSequences : []),
                   ...(Array.isArray(request.stopSequences) ? request.stopSequences : []),
                 ])];
@@ -1133,6 +1138,7 @@ export class NativeCpuRuntime extends InferenceRuntime {
                 const stopFilter = createStopSequenceFilter({
                   markers: [...new Set([...DEFAULT_STOP_MARKERS, ...requestStopSequences])],
                 });
+                let turnEndCancelSent = false;
                 const liveTokenListener = (event) => {
                   if (!firstTokenTraced) {
                     firstTokenTraced = true;
@@ -1153,6 +1159,14 @@ export class NativeCpuRuntime extends InferenceRuntime {
                     });
                   }
                   const safeText = stopFilter.push(decodedText);
+                  // The turn is over. Stop the engine now instead of letting it
+                  // decode the rest of the token budget in the background.
+                  if (stopFilter.stopped && !turnEndCancelSent && activeWorkerSessionId) {
+                    turnEndCancelSent = true;
+                    Promise.resolve()
+                      .then(() => worker.client.cancel({ sessionId: activeWorkerSessionId }))
+                      .catch(() => {});
+                  }
                   if (!safeText) {
                     return;
                   }

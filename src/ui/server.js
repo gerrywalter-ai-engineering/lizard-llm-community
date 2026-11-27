@@ -190,10 +190,9 @@ const STATIC_FILES = {
   "/": { file: "index.html", type: "text/html; charset=utf-8" },
   "/index.html": { file: "index.html", type: "text/html; charset=utf-8" },
   "/app.js": { file: "app.js", type: "text/javascript; charset=utf-8" },
-  "/chat.js": { file: "chat.js", type: "text/javascript; charset=utf-8" },
-  "/chat-charts.js": { file: "chat-charts.js", type: "text/javascript; charset=utf-8" },
+  "/pro-gem.js": { file: "pro-gem.js", type: "text/javascript; charset=utf-8" },
+  "/vendor/three.module.min.js": { file: "vendor/three.module.min.js", type: "text/javascript; charset=utf-8", cache: "public, max-age=604800, immutable" },
   "/styles.css": { file: "styles.css", type: "text/css; charset=utf-8" },
-  "/chat.css": { file: "chat.css", type: "text/css; charset=utf-8" },
 };
 
 const ASSET_TYPES = {
@@ -258,26 +257,7 @@ function serveStatic(res, entry) {
       sendJson(res, 500, { error: `Failed to read ${entry.file}` });
       return;
     }
-    res.writeHead(200, { "Content-Type": entry.type, "Cache-Control": "no-store" });
-    res.end(data);
-  });
-}
-
-// The chart library ships inside the app (it is a runtime dependency and the
-// installer stages node_modules), so this reads it from the install rather than
-// fetching it. Cached hard: the file is versioned with the app.
-function serveD3Bundle(res) {
-  const bundlePath = resolveAppPath("node_modules", "d3", "dist", "d3.min.js");
-  fs.readFile(bundlePath, (error, data) => {
-    if (error) {
-      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
-      res.end("The chart library is not installed.");
-      return;
-    }
-    res.writeHead(200, {
-      "Content-Type": "text/javascript; charset=utf-8",
-      "Cache-Control": "public, max-age=86400",
-    });
+    res.writeHead(200, { "Content-Type": entry.type, "Cache-Control": entry.cache ?? "no-store" });
     res.end(data);
   });
 }
@@ -516,27 +496,6 @@ function recordChatExchange(sessionId, userText, assistantText) {
     history.splice(0, 2);
   }
   chatSessions.set(sessionId, history);
-}
-
-// The native runtime takes a single prompt string, so prior turns are folded
-// into a plain-text transcript in front of the new message. This deliberately
-// leaves the generation flow itself untouched - memory is purely prompt
-// composition.
-function composeChatPrompt(history, prompt) {
-  if (history.length === 0) {
-    return prompt;
-  }
-  const transcript = history
-    .map((turn) => `${turn.role === "user" ? "User" : "Assistant"}: ${turn.text}`)
-    .join("\n");
-  return [
-    "You are continuing an ongoing chat session. Conversation so far:",
-    "",
-    transcript,
-    `User: ${prompt}`,
-    "",
-    "Reply to the user's last message, using the conversation above as context when relevant.",
-  ].join("\n");
 }
 
 // Keeps the warmed model resident across page reloads / SPA navigation,
@@ -1733,7 +1692,7 @@ async function handleApi({ req, res, url, config, logger, dashboardIntegration }
       return true;
     }
     try {
-      const hardware = scanHardware({ config, logger });
+      const hardware = cachedHardware({ config, logger });
       const registry = loadModelRegistry();
       const context = await resolveExecutionContext({
         command: "generate",
@@ -1909,8 +1868,13 @@ async function handleApi({ req, res, url, config, logger, dashboardIntegration }
     try {
       // Fold this dialog session's prior exchanges into the prompt so the
       // model knows what was already said - see composeChatPrompt above.
-      const contextPrompt = composeChatPrompt(getChatSessionHistory(sessionId), prompt);
-      const hardware = scanHardware({ config, logger });
+      const history = getChatSessionHistory(sessionId);
+      const contextPrompt = prompt;
+      const chatMessages = [
+        ...history.map((turn) => ({ role: turn.role === "user" ? "user" : "assistant", content: turn.text })),
+        { role: "user", content: prompt },
+      ];
+      const hardware = cachedHardware({ config, logger });
       const registry = loadModelRegistry();
       const context = await resolveExecutionContext({
         command: "generate",
@@ -1983,6 +1947,7 @@ async function handleApi({ req, res, url, config, logger, dashboardIntegration }
           timeoutMs: null,
         }, requestedProvider, config, context.modelArtifact.modelId),
         prompt: contextPrompt,
+        messages: chatMessages,
         maxTokens,
         config,
         logger,
@@ -2150,15 +2115,6 @@ export async function routeOnboarding({ req, res, config, logger, basePath = "",
 
   if (req.method === "GET" && pathname.startsWith("/assets/")) {
     serveAsset(res, pathname);
-    return true;
-  }
-
-  // D3, served from the installed node_modules rather than a CDN: the app
-  // promises everything runs on this machine, and a chart that needs the
-  // network would quietly break that on the first offline conversation.
-  // Fetched lazily by chat-charts.js on the first chart of a session.
-  if (req.method === "GET" && pathname === "/vendor/d3.min.js") {
-    serveD3Bundle(res);
     return true;
   }
 
