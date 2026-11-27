@@ -280,7 +280,7 @@ async function runChat(positional, argv) {
   }
   modelId = modelId ?? downloads.getActiveModel(config)?.id;
   if (!modelId) {
-    throw new Error("No model yet. Pull one first, for example:\n  lizard pull Qwen/Qwen2.5-0.5B-Instruct-GGUF\nor open the guided setup: lizard app");
+    throw new Error("No model yet. Pull one first, for example:\n  lizard pull bartowski/Qwen2.5-1.5B-Instruct-GGUF\nor open the guided setup: lizard app");
   }
   const engine = normalizeEngine(flagValue(argv, "engine")) ?? "lizard-native";
   const portDefault = engine === "caterpillar" ? config.engine?.caterpillar?.port ?? 8014 : config.engine?.native?.port ?? 8013;

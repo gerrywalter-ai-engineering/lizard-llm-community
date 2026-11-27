@@ -117,7 +117,7 @@ async function main() {
   }
   say("");
   say("Ready. Start the app with:  start.cmd   (or: npm start)");
-  say("Or use the CLI:             node src/cli.js pull Qwen/Qwen2.5-0.5B-Instruct-GGUF");
+  say("Or use the CLI:             node src/cli.js pull bartowski/Qwen2.5-1.5B-Instruct-GGUF");
 }
 
 main().catch((error) => {

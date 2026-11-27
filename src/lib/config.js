@@ -21,7 +21,7 @@ const runtimeDirectory = process.env.LIZARD_RUNTIME_DIRECTORY
 // Overridable with LIZARD_PORT for anyone who still hits a conflict. NOTE: the
 // OAuth redirect URI is registered with the identity provider, so a custom port
 // only works if that URI is registered too - both 7817 and the legacy 5567 are.
-export const DEFAULT_APP_PORT = 7817;
+export const DEFAULT_APP_PORT = 7818;
 export const LEGACY_APP_PORT = 5567;
 
 export function resolveAppPort(env = process.env) {

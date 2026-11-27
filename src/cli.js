@@ -922,7 +922,7 @@ async function main() {
 
       // One local app: onboarding at / and /onboarding, chat inside it.
       const { startUiServer } = await import("./ui/server.js");
-      const port = options.port ? Number.parseInt(options.port, 10) : Number.parseInt(process.env.LIZARD_PORT ?? "7817", 10);
+      const port = options.port ? Number.parseInt(options.port, 10) : Number.parseInt(process.env.LIZARD_PORT ?? "7818", 10);
       const { url } = await startUiServer({ config, logger, port, host });
       console.log(`Lizard LLM Community Edition running at ${url}`);
       console.log(cpuOnly

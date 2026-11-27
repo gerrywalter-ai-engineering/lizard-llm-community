@@ -43,7 +43,7 @@ cd lizard-llm-community
 .\start.cmd
 ```
 
-The browser opens at <http://127.0.0.1:7817> and walks you through four steps:
+The browser opens at <http://127.0.0.1:7818> and walks you through four steps:
 
 1. **Your machine.** A hardware scan and a plain-language verdict on what fits.
 2. **Pick a model.** A curated list ranked by fit, or a search across all GGUF models on Hugging Face.
@@ -140,7 +140,7 @@ The build fetches ggml at a pinned commit and verifies it, then builds `lizard-n
 | --- | --- |
 | Models, catalog, logs, local incident records | `%USERPROFILE%\.lizard-llm-community\` (change with `LIZARD_RUNTIME_DIRECTORY`) |
 | Optional settings | `lizard-llm.config.json` in the repo folder (start from `lizard-llm.config.example.json`) |
-| App port | `7817` (change with `LIZARD_PORT`) |
+| App port | `7818` (change with `LIZARD_PORT`) |
 | Engine API ports | `8013` lizard-native, `8014` caterpillar |
 | Hugging Face token for gated models | `HF_TOKEN` environment variable |
 
@@ -179,7 +179,7 @@ tests/                    node --test suite
 
 ```powershell
 npm test          # node --test, no dependencies to install
-npm start         # the app on http://127.0.0.1:7817
+npm start         # the app on http://127.0.0.1:7818
 ```
 
 Issues and pull requests are welcome. Please describe your hardware (GPU, driver, RAM) when you report an engine problem; `lizard scan --json` prints everything that helps.
