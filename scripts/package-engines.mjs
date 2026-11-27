@@ -28,8 +28,15 @@ fs.mkdirSync(dist, { recursive: true });
 const zipPath = path.join(dist, asset);
 fs.rmSync(zipPath, { force: true });
 // bsdtar (tar.exe on Windows) writes a zip when the name ends in .zip with -a.
-const result = spawnSync("tar", ["-a", "-cf", zipPath, ...files], { cwd: root, stdio: "inherit" });
+const result = spawnSync(windowsTar(), ["-a", "-cf", zipPath, ...files], { cwd: root, stdio: "inherit" });
 if (result.status !== 0) process.exit(result.status ?? 1);
 const hash = crypto.createHash("sha256").update(fs.readFileSync(zipPath)).digest("hex");
 fs.writeFileSync(path.join(dist, "SHA256SUMS"), `${hash}  ${asset}\n`);
 console.log(`${asset}\n${hash}`);
+
+// Windows ships bsdtar as System32\tar.exe (it reads and writes zip). Prefer it
+// over a GNU tar that Git Bash may put first on PATH, which treats "E:" as a host.
+function windowsTar() {
+  const systemTar = path.join(process.env.SystemRoot ?? "C:/Windows", "System32", "tar.exe");
+  return fs.existsSync(systemTar) ? systemTar : "tar";
+}

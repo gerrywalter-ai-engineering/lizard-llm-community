@@ -70,7 +70,7 @@ async function installPrebuilt() {
   const zipPath = path.join(tmp, ASSET);
   fs.writeFileSync(zipPath, zip);
   // tar.exe ships with Windows 10 1803+ and reads zip archives.
-  const result = spawnSync("tar", ["-xf", zipPath, "-C", root], { stdio: "inherit" });
+  const result = spawnSync(windowsTar(), ["-xf", zipPath, "-C", root], { stdio: "inherit" });
   fs.rmSync(tmp, { recursive: true, force: true });
   if (result.status !== 0) throw new Error("Could not unpack the engine archive.");
   say("Checksum verified, engines unpacked.");
@@ -124,3 +124,10 @@ main().catch((error) => {
   console.error(`\nSetup failed: ${error.message}`);
   process.exitCode = 1;
 });
+
+// Windows ships bsdtar as System32\tar.exe (it reads and writes zip). Prefer it
+// over a GNU tar that Git Bash may put first on PATH, which treats "E:" as a host.
+function windowsTar() {
+  const systemTar = path.join(process.env.SystemRoot ?? "C:/Windows", "System32", "tar.exe");
+  return fs.existsSync(systemTar) ? systemTar : "tar";
+}
