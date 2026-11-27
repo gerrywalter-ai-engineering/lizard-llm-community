@@ -1,0 +1,326 @@
+{
+  "gemma4-e4b-q4.gguf::Q4_K_M": {
+    "recordedAt": "2026-07-05T08:30:12.009Z",
+    "model": "gemma4-e4b-q4.gguf",
+    "quant": "Q4_K_M",
+    "cases": {
+      "colors": {
+        "prompt": "The three primary colors are",
+        "maxTokens": 16,
+        "tokenIds": [
+          818,
+          1806,
+          5905,
+          7913,
+          659,
+          236787,
+          108,
+          236829,
+          5213,
+          9264,
+          1018,
+          107,
+          236829,
+          5213,
+          37154,
+          1018
+        ],
+        "output": "The▁three▁primary▁colors▁are:\n\n*▁**Red**\n*▁**Yellow**",
+        "nativeBackend": "directx-hybrid"
+      },
+      "capital": {
+        "prompt": "The capital of France is",
+        "maxTokens": 8,
+        "tokenIds": [
+          818,
+          5279,
+          529,
+          7001,
+          563,
+          5213,
+          50429,
+          84750
+        ],
+        "output": "The▁capital▁of▁France▁is▁**Paris**.",
+        "nativeBackend": "directx-hybrid"
+      },
+      "cats-dogs": {
+        "prompt": "What is the difference between cats and dogs",
+        "maxTokens": 24,
+        "tokenIds": [
+          818,
+          4954,
+          1534,
+          22797,
+          532,
+          12414,
+          563,
+          12529,
+          236764,
+          97749,
+          5213,
+          129580,
+          236764,
+          6868,
+          236764,
+          4083,
+          236764,
+          532,
+          1581,
+          1217,
+          14464,
+          11082,
+          12740,
+          607
+        ],
+        "output": "The▁difference▁between▁cats▁and▁dogs▁is▁vast,▁encompassing▁**biology,▁behavior,▁history,▁and▁even▁how▁humans▁typically▁interact▁with",
+        "nativeBackend": "directx-hybrid"
+      }
+    }
+  },
+  "llama-3.2-3b-instruct-gguf-q4_k_m.gguf::Q4_K_M": {
+    "recordedAt": "2026-07-11T16:03:02.392Z",
+    "model": "llama-3.2-3b-instruct-gguf-q4_k_m.gguf",
+    "quant": "Q4_K_M",
+    "cases": {
+      "colors": {
+        "prompt": "The three primary colors are",
+        "maxTokens": 16,
+        "tokenIds": [
+          2579,
+          11,
+          6437,
+          11,
+          323,
+          14071,
+          13,
+          4314,
+          8146,
+          527,
+          279,
+          2385,
+          8146,
+          430,
+          649,
+          387
+        ],
+        "output": "Ġred,Ġblue,ĠandĠyellow.ĠTheseĠcolorsĠareĠtheĠbaseĠcolorsĠthatĠcanĠbe",
+        "nativeBackend": "cpu"
+      },
+      "capital": {
+        "prompt": "The capital of France is",
+        "maxTokens": 8,
+        "tokenIds": [
+          12366,
+          13,
+          578,
+          6864,
+          315,
+          15704,
+          374,
+          22463
+        ],
+        "output": "ĠParis.ĠTheĠcapitalĠofĠItalyĠisĠRome",
+        "nativeBackend": "cpu"
+      },
+      "cats-dogs": {
+        "prompt": "What is the difference between cats and dogs",
+        "maxTokens": 24,
+        "tokenIds": [
+          5380,
+          34,
+          1900,
+          323,
+          12875,
+          527,
+          1403,
+          315,
+          279,
+          1455,
+          5526,
+          26159,
+          304,
+          279,
+          1917,
+          11,
+          719,
+          814,
+          9352,
+          311,
+          2204,
+          9606,
+          323,
+          617
+        ],
+        "output": "?ĊCatsĠandĠdogsĠareĠtwoĠofĠtheĠmostĠpopularĠpetsĠinĠtheĠworld,ĠbutĠtheyĠbelongĠtoĠdifferentĠspeciesĠandĠhave",
+        "nativeBackend": "cpu"
+      }
+    }
+  },
+  "llama-3.2-3b-instruct-gguf-q8_0.gguf::Q8_0": {
+    "recordedAt": "2026-07-11T16:05:22.285Z",
+    "model": "llama-3.2-3b-instruct-gguf-q8_0.gguf",
+    "quant": "Q8_0",
+    "cases": {
+      "colors": {
+        "prompt": "The three primary colors are",
+        "maxTokens": 16,
+        "tokenIds": [
+          2579,
+          11,
+          6437,
+          11,
+          323,
+          14071,
+          13,
+          4314,
+          8146,
+          527,
+          279,
+          2385,
+          8146,
+          430,
+          649,
+          387
+        ],
+        "output": "Ġred,Ġblue,ĠandĠyellow.ĠTheseĠcolorsĠareĠtheĠbaseĠcolorsĠthatĠcanĠbe",
+        "nativeBackend": "cpu"
+      },
+      "capital": {
+        "prompt": "The capital of France is",
+        "maxTokens": 8,
+        "tokenIds": [
+          12366,
+          13,
+          578,
+          6864,
+          315,
+          15704,
+          374,
+          22463
+        ],
+        "output": "ĠParis.ĠTheĠcapitalĠofĠItalyĠisĠRome",
+        "nativeBackend": "cpu"
+      },
+      "cats-dogs": {
+        "prompt": "What is the difference between cats and dogs",
+        "maxTokens": 24,
+        "tokenIds": [
+          5380,
+          34,
+          1900,
+          323,
+          12875,
+          527,
+          1403,
+          315,
+          279,
+          1455,
+          5526,
+          26159,
+          304,
+          279,
+          1917,
+          11,
+          719,
+          814,
+          9352,
+          311,
+          2204,
+          9606,
+          323,
+          617
+        ],
+        "output": "?ĊCatsĠandĠdogsĠareĠtwoĠofĠtheĠmostĠpopularĠpetsĠinĠtheĠworld,ĠbutĠtheyĠbelongĠtoĠdifferentĠspeciesĠandĠhave",
+        "nativeBackend": "cpu"
+      }
+    }
+  },
+  "llama-3.2-3b-instruct.gguf::Q4_K_M": {
+    "recordedAt": "2026-07-30T12:18:34.559Z",
+    "model": "llama-3.2-3b-instruct.gguf",
+    "quant": "Q4_K_M",
+    "cases": {
+      "colors": {
+        "prompt": "The three primary colors are",
+        "maxTokens": 16,
+        "tokenIds": [
+          6161,
+          11,
+          8868,
+          11,
+          323,
+          26541,
+          13
+        ],
+        "output": "Red,ĠBlue,ĠandĠYellow.",
+        "nativeBackend": "directx-hybrid"
+      },
+      "capital": {
+        "prompt": "The capital of France is",
+        "maxTokens": 8,
+        "tokenIds": [
+          60704,
+          13
+        ],
+        "output": "Paris.",
+        "nativeBackend": "directx-hybrid"
+      },
+      "cats-dogs": {
+        "prompt": "What is the difference between cats and dogs",
+        "maxTokens": 24,
+        "tokenIds": [
+          34,
+          1900,
+          323,
+          12875,
+          527,
+          1403,
+          315,
+          279,
+          1455,
+          5526,
+          26159,
+          304,
+          279,
+          1917,
+          11,
+          323,
+          1418,
+          814,
+          4430,
+          1063,
+          43874,
+          11,
+          814,
+          1101
+        ],
+        "output": "CatsĠandĠdogsĠareĠtwoĠofĠtheĠmostĠpopularĠpetsĠinĠtheĠworld,ĠandĠwhileĠtheyĠshareĠsomeĠsimilarities,ĠtheyĠalso",
+        "nativeBackend": "directx-hybrid"
+      },
+      "long-prefill": {
+        "prompt": "Read the following notes and then answer the question at the end.\n\nNotes on the water cycle: Water on the surface of the ocean absorbs energy\nfrom sunlight and evaporates, becoming vapour that rises into the atmosphere.\nAs the vapour rises it cools, and cooling reduces the amount of water the air\ncan hold, so the vapour condenses onto small particles of dust and salt to\nform droplets. Large numbers of droplets together are visible as cloud. When\nthe droplets grow heavy enough that rising air can no longer support them,\nthey fall as precipitation: rain if the air column is warm, snow or hail if it\nis cold. Precipitation that lands on soil either soaks in, becoming\ngroundwater that moves slowly through porous rock, or runs across the surface\ninto streams and rivers. Rivers return the water to the ocean, and the cycle\nbegins again. Plants participate through transpiration, drawing groundwater up\nthrough their roots and releasing vapour from their leaves, which is why\nforests are locally wetter than bare ground at the same latitude.\n\nQuestion: according to the notes, what makes water vapour condense?",
+        "maxTokens": 24,
+        "tokenIds": [
+          11439,
+          311,
+          279,
+          8554,
+          11,
+          3090,
+          68857,
+          414,
+          9955,
+          4377,
+          994,
+          433,
+          1080,
+          3145,
+          13
+        ],
+        "output": "AccordingĠtoĠtheĠnotes,ĠwaterĠvapourĠcondensesĠwhenĠitĠcools.",
+        "nativeBackend": "directx-hybrid"
+      }
+    }
+  }
+}

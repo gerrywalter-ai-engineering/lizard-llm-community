@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Lizard LLM</title>
+    <link rel="icon" type="image/png" href="assets/brand/lizard-mark.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Lizard LLM, start">
+        <img src="assets/brand/lizard-mark.png" alt="" width="28" height="28" />
+        <span class="brand-name">Lizard LLM</span>
+        <span class="brand-edition">Community</span>
+      </a>
+
+      <!-- The model's temperature: cold (not loaded), warming, warm (ready). -->
+      <div class="heat" id="heat" data-state="cold" role="status" aria-live="polite">
+        <span class="heat-dot" aria-hidden="true"></span>
+        <span class="heat-text" id="heat-text">No model loaded</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="rail" aria-label="Setup">
+        <ol class="steps" id="steps">
+          <li><button type="button" data-step="machine"><span class="step-n">1</span><span class="step-body"><span class="step-title">Your machine</span><span class="step-hint" id="hint-machine">Checking hardware</span></span></button></li>
+          <li><button type="button" data-step="model"><span class="step-n">2</span><span class="step-body"><span class="step-title">Pick a model</span><span class="step-hint" id="hint-model">Matched to your memory</span></span></button></li>
+          <li><button type="button" data-step="download"><span class="step-n">3</span><span class="step-body"><span class="step-title">Download</span><span class="step-hint" id="hint-download">Verified GGUF file</span></span></button></li>
+          <li><button type="button" data-step="chat"><span class="step-n">4</span><span class="step-body"><span class="step-title">Chat and API</span><span class="step-hint" id="hint-chat">Runs offline</span></span></button></li>
+        </ol>
+
+        <aside class="pro" id="pro" aria-labelledby="pro-title">
+          <h2 id="pro-title">Lizard LLM Pro</h2>
+          <p class="pro-price"><strong id="pro-price">€5</strong> once. No subscription.</p>
+          <ul id="pro-list"></ul>
+          <a class="pro-link" id="pro-link" href="https://lizard-llm.qendryx.com/download.html" target="_blank" rel="noopener">Get Pro on lizard-llm.qendryx.com</a>
+          <p class="pro-note">Everything on this page stays free and open source.</p>
+        </aside>
+      </nav>
+
+      <main id="main" tabindex="-1">
+        <!-- 1. Machine -->
+        <section class="panel" id="panel-machine" aria-labelledby="h-machine">
+          <h1 id="h-machine">Your machine</h1>
+          <p class="lede">Lizard reads your processor, memory and graphics card once, then only suggests models that will actually run here.</p>
+          <dl class="specs" id="specs" aria-busy="true">
+            <div><dt>Processor</dt><dd class="skeleton">&nbsp;</dd></div>
+            <div><dt>Memory</dt><dd class="skeleton">&nbsp;</dd></div>
+            <div><dt>Graphics</dt><dd class="skeleton">&nbsp;</dd></div>
+            <div><dt>Model budget</dt><dd class="skeleton">&nbsp;</dd></div>
+          </dl>
+          <p class="verdict" id="machine-verdict"></p>
+          <div class="actions">
+            <button class="btn primary" type="button" id="to-model" disabled>Show models that fit</button>
+            <button class="btn quiet" type="button" id="rescan">Scan again</button>
+          </div>
+        </section>
+
+        <!-- 2. Model -->
+        <section class="panel" id="panel-model" aria-labelledby="h-model" hidden>
+          <h1 id="h-model">Pick a model</h1>
+          <p class="lede">Sorted by how well each one fits your machine. Sizes are the download; memory is what it needs while running.</p>
+
+          <div class="local" id="local-wrap" hidden>
+            <h2>Already on this machine</h2>
+            <ul class="rows" id="local-list"></ul>
+          </div>
+
+          <div class="filters" role="group" aria-label="What will you use it for?">
+            <button type="button" class="chip" data-task="" aria-pressed="true">Everything</button>
+            <button type="button" class="chip" data-task="chat" aria-pressed="false">Chat</button>
+            <button type="button" class="chip" data-task="code" aria-pressed="false">Code</button>
+            <button type="button" class="chip" data-task="reasoning" aria-pressed="false">Reasoning</button>
+          </div>
+          <ul class="rows" id="model-list" aria-busy="true"></ul>
+
+          <details class="hub" id="hub">
+            <summary>Search all of Hugging Face</summary>
+            <form class="hub-form" id="hub-form" role="search">
+              <label class="visually-hidden" for="hub-q">Model name</label>
+              <input id="hub-q" type="search" placeholder="Search GGUF models, e.g. qwen, llama, phi" autocomplete="off" />
+              <button class="btn" type="submit">Search</button>
+            </form>
+            <ul class="rows" id="hub-list"></ul>
+          </details>
+        </section>
+
+        <!-- 3. Download -->
+        <section class="panel" id="panel-download" aria-labelledby="h-download" hidden>
+          <h1 id="h-download">Download</h1>
+          <p class="lede" id="dl-lede">Choose an engine, then start the download. The file is checked against its published checksum before it is used.</p>
+
+          <div class="picked" id="picked"></div>
+
+          <fieldset class="engines">
+            <legend>Engine</legend>
+            <label class="engine">
+              <input type="radio" name="engine" value="lizard-native" checked />
+              <span class="engine-body">
+                <span class="engine-name">lizard-native</span>
+                <span class="engine-desc">Keeps the weights on your graphics card between answers. Best on most PCs, including laptops with integrated graphics.</span>
+              </span>
+            </label>
+            <label class="engine">
+              <input type="radio" name="engine" value="caterpillar" />
+              <span class="engine-body">
+                <span class="engine-name">caterpillar</span>
+                <span class="engine-desc">Runs a pre-planned compute graph with speculative decoding. Often faster on Q4_K models; newer.</span>
+              </span>
+            </label>
+          </fieldset>
+
+          <div class="progress" id="dl-progress" hidden>
+            <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="dl-status"><span id="dl-bar"></span></div>
+            <p class="progress-line"><span id="dl-status">Starting</span><span id="dl-meta"></span></p>
+          </div>
+          <p class="error" id="dl-error" role="alert" hidden></p>
+
+          <div class="actions">
+            <button class="btn primary" type="button" id="dl-start">Download and load</button>
+            <button class="btn quiet" type="button" id="dl-back">Choose another model</button>
+          </div>
+        </section>
+
+        <!-- 4. Chat -->
+        <section class="panel chat-panel" id="panel-chat" aria-labelledby="h-chat" hidden>
+          <div class="chat-head">
+            <div>
+              <h1 id="h-chat">Chat</h1>
+              <p class="chat-model" id="chat-model"></p>
+            </div>
+            <div class="chat-tools">
+              <label class="visually-hidden" for="chat-engine">Engine</label>
+              <select id="chat-engine">
+                <option value="lizard-native">lizard-native</option>
+                <option value="caterpillar">caterpillar</option>
+              </select>
+              <button class="btn quiet" type="button" id="chat-clear">New chat</button>
+              <button class="btn quiet" type="button" id="unload">Unload</button>
+            </div>
+          </div>
+
+          <div class="log" id="log" aria-live="polite">
+            <div class="empty" id="chat-empty">
+              <p>Ask anything. Nothing leaves this computer.</p>
+              <div class="starters">
+                <button type="button" class="starter">Explain what a GGUF file is in two sentences.</button>
+                <button type="button" class="starter">Write a polite reply declining a meeting.</button>
+                <button type="button" class="starter">Give me three dinner ideas with rice and eggs.</button>
+              </div>
+            </div>
+          </div>
+
+          <form class="composer" id="composer">
+            <label class="visually-hidden" for="prompt">Message</label>
+            <textarea id="prompt" rows="1" placeholder="Message the model" disabled></textarea>
+            <button class="btn primary" type="submit" id="send" disabled>Send</button>
+          </form>
+
+          <details class="api" id="api">
+            <summary>Use it from your own apps</summary>
+            <p>While a model is loaded, Lizard answers on an OpenAI-compatible and Ollama-compatible endpoint on this computer only.</p>
+            <pre><code id="api-snippet"></code></pre>
+            <button class="btn quiet small" type="button" id="api-copy">Copy</button>
+          </details>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

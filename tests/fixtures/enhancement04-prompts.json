@@ -1,0 +1,129 @@
+{
+  "$comment": [
+    "EnhancementRun_04 frozen prompt set. Fixed at Phase 0 and changed only by a",
+    "logged amendment that re-baselines every prior measurement -- see",
+    ".Agent/EnhancementRun_04_lizard/03_Test_Suite.md section 1.4 and section 5.",
+    "",
+    "The split into classes is not decoration. Speculative decoding's win is",
+    "workload-conditional, so the draftable and non-draftable halves are measured",
+    "separately; a speculation result averaged over both hides the condition that",
+    "makes it true. Long-prefix exists to exercise cross-session KV sharing, and",
+    "long-context prompts are built by recipe rather than stored verbatim so a",
+    "4096-token blob does not live in the repo."
+  ],
+  "version": 1,
+  "frozenAt": "2026-07-27",
+  "prompts": [
+    {
+      "id": "draft-json-schema",
+      "class": "draftable",
+      "text": "Repeat this JSON object three times, changing only the id field to 1, 2 and 3:\n{\"id\": 0, \"name\": \"widget\", \"enabled\": true, \"tags\": [\"alpha\", \"beta\"]}"
+    },
+    {
+      "id": "draft-csv-rows",
+      "class": "draftable",
+      "text": "Continue this CSV with eight more rows following the same pattern:\nid,region,units,status\n1,north,120,active\n2,north,120,active\n3,north,120,active"
+    },
+    {
+      "id": "draft-code-loop",
+      "class": "draftable",
+      "text": "Write a Python function that prints the numbers 1 through 10, each on its own line, using ten separate print statements rather than a loop."
+    },
+    {
+      "id": "draft-list-repeat",
+      "class": "draftable",
+      "text": "List the days of the week, then list them again in the same order, then a third time."
+    },
+    {
+      "id": "prose-explain",
+      "class": "non-draftable",
+      "text": "Explain why a memory-bandwidth-bound workload does not get faster when you add more CPU threads."
+    },
+    {
+      "id": "prose-story",
+      "class": "non-draftable",
+      "text": "Write a short paragraph about a lighthouse keeper who has never seen the sea in daylight."
+    },
+    {
+      "id": "prose-translate",
+      "class": "non-draftable",
+      "text": "Translate into German: The measurement is only meaningful if the control was run in the same session."
+    },
+    {
+      "id": "prose-compare",
+      "class": "non-draftable",
+      "text": "Describe the difference between latency and throughput to someone who has never worked with computers."
+    },
+    {
+      "id": "prefix-support-a",
+      "class": "long-prefix",
+      "sharedPrefixId": "support-system",
+      "text": "The customer says their export finished but the file is empty. What do I check first?"
+    },
+    {
+      "id": "prefix-support-b",
+      "class": "long-prefix",
+      "sharedPrefixId": "support-system",
+      "text": "The customer cannot sign in and says the reset email never arrives. What do I check first?"
+    },
+    {
+      "id": "prefix-support-c",
+      "class": "long-prefix",
+      "sharedPrefixId": "support-system",
+      "text": "The customer reports the dashboard is showing yesterday's numbers. What do I check first?"
+    },
+    {
+      "id": "prefix-support-d",
+      "class": "long-prefix",
+      "sharedPrefixId": "support-system",
+      "text": "The customer was charged twice for the same order. What do I check first?"
+    },
+    {
+      "id": "long-ctx-summarize",
+      "class": "long-context",
+      "builder": {
+        "type": "repeat",
+        "times": 96,
+        "base": "Entry {n}: the batch scheduler admitted a sequence, allocated {n} key-value blocks, and retired it after {n} decode steps without preempting any running sequence. ",
+        "suffix": "\n\nSummarize the pattern in the log above in two sentences."
+      }
+    },
+    {
+      "id": "long-ctx-recall",
+      "class": "long-context",
+      "builder": {
+        "type": "repeat",
+        "times": 96,
+        "base": "Record {n}: region north, units {n}, status active, reviewer unassigned. ",
+        "suffix": "\n\nWhich record number is the last one listed?"
+      }
+    },
+    {
+      "id": "turn-greeting",
+      "class": "short-turn",
+      "text": "Hi, what can you help me with?"
+    },
+    {
+      "id": "turn-followup",
+      "class": "short-turn",
+      "text": "Can you say that again more briefly?"
+    },
+    {
+      "id": "turn-factual",
+      "class": "short-turn",
+      "text": "What is the capital of Portugal?"
+    },
+    {
+      "id": "turn-arith",
+      "class": "short-turn",
+      "text": "What is 17 times 24?"
+    }
+  ],
+  "sharedPrefixes": {
+    "support-system": "You are a support engineer for a data platform. Before answering any question you always establish three things in order: which environment the customer is on, whether the failure is reproducible, and what the last successful run looked like. You never speculate about a root cause before those three are known, and you always state which of them you are still missing. Answer in at most four sentences."
+  },
+  "tokenBudgets": {
+    "decode": [48, 128],
+    "prefill": [64, 512, 4096]
+  }
+}

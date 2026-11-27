@@ -1,0 +1,47 @@
+{
+  "name": "lizard-llm-community",
+  "version": "1.0.0",
+  "description": "Run local LLMs on Windows with two open-source native inference engines (Direct3D 12 + CPU). Ollama-style CLI, guided onboarding, OpenAI- and Ollama-compatible API.",
+  "type": "module",
+  "bin": {
+    "lizard": "./src/cli.js",
+    "lizard-llm": "./src/cli.js"
+  },
+  "scripts": {
+    "setup": "node ./scripts/setup.mjs",
+    "start": "node ./src/cli.js app",
+    "app": "node ./src/cli.js app",
+    "serve": "node ./src/cli.js serve",
+    "build:engines": "node ./scripts/setup.mjs --build-from-source",
+    "build:native": "node ./scripts/build-native-runner.mjs",
+    "build:caterpillar": "cmake -S native/caterpillar-runner -B native/caterpillar-runner/build -G Ninja -DCMAKE_BUILD_TYPE=Release && cmake --build native/caterpillar-runner/build",
+    "package:engines": "node ./scripts/package-engines.mjs",
+    "test": "node --test \"tests/*.test.js\""
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "os": [
+    "win32"
+  ],
+  "keywords": [
+    "llm",
+    "local-ai",
+    "gguf",
+    "inference",
+    "direct3d12",
+    "ollama",
+    "openai-compatible",
+    "windows"
+  ],
+  "author": "Qendryx AI Solutions",
+  "homepage": "https://lizard-llm.qendryx.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gerrywalter-ai-engineering/lizard-llm-community.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gerrywalter-ai-engineering/lizard-llm-community/issues"
+  },
+  "license": "Apache-2.0"
+}

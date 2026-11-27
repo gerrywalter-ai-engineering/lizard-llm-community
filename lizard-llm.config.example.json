@@ -1,0 +1,30 @@
+{
+  "defaultMode": "balanced",
+  "modelDirectory": "~/.lizard-llm-community/models",
+  "catalogPath": "~/.lizard-llm-community/model-catalog.json",
+  "maxRamUsagePercent": 85,
+  "maxVramUsagePercent": 90,
+  "generation": {
+    "maxTokens": 160,
+    "temperature": 0.2
+  },
+  "logging": {
+    "directory": "~/.lizard-llm-community/logs"
+  },
+  "engine": {
+    "native": {
+      "host": "127.0.0.1",
+      "port": 8013
+    },
+    "caterpillar": {
+      "host": "127.0.0.1",
+      "port": 8014
+    }
+  },
+  "ollama": {
+    "modelsDirectory": "~/.ollama/models",
+    "importStrategy": "hardlink",
+    "autoImport": true,
+    "autoPullIfMissing": false
+  }
+}

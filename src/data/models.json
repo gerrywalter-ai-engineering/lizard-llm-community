@@ -1,0 +1,108 @@
+{
+  "models": [
+    {
+      "id": "llama-3.2-3b-instruct",
+      "family": "llama",
+      "paramsB": 3.2,
+      "totalLayers": 28,
+      "hiddenSize": 3072,
+      "defaultContext": 8192,
+      "maxContext": 131072,
+      "tasks": ["chat", "summarization", "reasoning"],
+      "quantizations": ["Q3_K_M", "Q4_K_M", "Q5_K_M"],
+      "ollamaTag": "llama3.2:3b"
+    },
+    {
+      "id": "phi-4-mini-instruct",
+      "family": "phi",
+      "paramsB": 3.8,
+      "totalLayers": 32,
+      "hiddenSize": 3072,
+      "defaultContext": 4096,
+      "maxContext": 8192,
+      "tasks": ["chat", "structured_output", "summarization"],
+      "quantizations": ["Q2_K", "Q3_K_M", "Q4_K_M", "Q5_K_M"]
+    },
+    {
+      "id": "llama-3.1-8b-instruct",
+      "family": "llama",
+      "paramsB": 8,
+      "totalLayers": 32,
+      "hiddenSize": 4096,
+      "defaultContext": 8192,
+      "maxContext": 16384,
+      "tasks": ["chat", "reasoning", "summarization"],
+      "quantizations": ["Q3_K_M", "Q4_K_M", "Q5_K_M", "Q6_K"]
+    },
+    {
+      "id": "mistral-7b-instruct-v0.3",
+      "family": "mistral",
+      "paramsB": 7.2,
+      "totalLayers": 32,
+      "hiddenSize": 4096,
+      "defaultContext": 8192,
+      "maxContext": 32768,
+      "tasks": ["chat", "coding", "summarization"],
+      "quantizations": ["Q3_K_M", "Q4_K_M", "Q5_K_M", "Q6_K"]
+    },
+    {
+      "id": "qwen2.5-coder-7b-instruct",
+      "family": "qwen",
+      "paramsB": 7.6,
+      "totalLayers": 28,
+      "hiddenSize": 3584,
+      "defaultContext": 8192,
+      "maxContext": 32768,
+      "tasks": ["coding", "reasoning", "structured_output"],
+      "quantizations": ["Q3_K_M", "Q4_K_M", "Q5_K_M", "Q6_K"],
+      "ollamaTag": "qwen2.5-coder:7b"
+    },
+    {
+      "id": "qwen2.5-14b-instruct",
+      "family": "qwen",
+      "paramsB": 14.7,
+      "totalLayers": 40,
+      "hiddenSize": 5120,
+      "defaultContext": 8192,
+      "maxContext": 32768,
+      "tasks": ["reasoning", "coding", "long_context"],
+      "quantizations": ["Q2_K", "Q3_K_M", "Q4_K_M", "Q5_K_M"],
+      "ollamaTag": "qwen2.5-coder:14b"
+    },
+    {
+      "id": "gemma4-e4b",
+      "aliases": ["gemma4", "gemma-2-9b-instruct"],
+      "family": "gemma4",
+      "paramsB": 8,
+      "totalLayers": 42,
+      "hiddenSize": 3584,
+      "defaultContext": 8192,
+      "maxContext": 131072,
+      "tasks": ["chat", "reasoning", "summarization"],
+      "quantizations": ["Q4_K_M"],
+      "ollamaTag": "gemma4:e4b",
+      "ollamaTags": ["gemma4:latest"],
+      "nativeLlamaCpp": {
+        "provider": "huggingface-cache",
+        "repo": "ggml-org/gemma-4-E4B-it-GGUF",
+        "defaultQuantType": "Q4_K_M",
+        "preferredSourceQuantByCompression": {
+          "Q1": "Q4_K_M",
+          "Q2": "Q4_K_M",
+          "Q3": "Q4_K_M",
+          "Q4": "Q4_K_M",
+          "Q5": "Q8_0",
+          "Q6": "Q8_0",
+          "Q7": "Q4_K_M",
+          "Q8": "Q8_0",
+          "Q9": "Q4_K_M"
+        },
+        "files": {
+          "Q4_K_M": "gemma-4-E4B-it-Q4_K_M.gguf",
+          "Q8_0": "gemma-4-E4B-it-Q8_0.gguf",
+          "BF16": "gemma-4-E4B-it-bf16.gguf"
+        }
+      }
+    }
+  ]
+}

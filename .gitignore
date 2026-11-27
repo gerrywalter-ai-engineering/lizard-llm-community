@@ -1,0 +1,12 @@
+node_modules/
+dist/
+native/*/build/
+native/*/build-*/
+.logs/
+*.log
+lizard-llm.config.json
+.env
+.env.*
+*.gguf
+.DS_Store
+Thumbs.db

@@ -1,0 +1,44 @@
+THIRD-PARTY NOTICES
+Lizard LLM Community Edition
+
+The Lizard LLM Community Edition itself is licensed under Apache-2.0 (see
+LICENSE). It uses the third-party component below, which stays under its own
+licence. The JavaScript app has no npm runtime dependencies.
+
+==========================================================================
+ggml-cpu (llama.cpp) @ ddd4ec1428a6201e18975ea52b07c71e0f9aef26, MIT
+==========================================================================
+Used by: native/lizard-native-runner (pinned CPU tensor backend)
+Source:  https://github.com/ggml-org/llama.cpp
+Commit:  ddd4ec1428a6201e18975ea52b07c71e0f9aef26
+Fetched and checksum-verified at build time by scripts/build-native-runner.mjs;
+statically linked into the lizard-native-runner executables.
+
+MIT License
+
+Copyright (c) 2023-2026 The ggml authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+==========================================================================
+Models
+==========================================================================
+Lizard downloads GGUF model files from Hugging Face at your request. Each
+model has its own licence (shown in the app and by `lizard show`). You are
+responsible for following it.
